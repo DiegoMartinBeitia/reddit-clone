@@ -29,6 +29,6 @@ $factory->define(App\Post::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->sentence,
         'description' => $faker->paragraph,
-        'url' =>$faker->url
+        'url' =>$faker->urlphp
     ];
 });
