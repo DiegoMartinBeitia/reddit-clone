@@ -2,19 +2,12 @@
 
 @section('content')
 
-	@if(count($errors)> 0)
-		<div class="alert alert-danger">
-			<ul>
-				@foreach($errors->all() as $error)
-					<li>{{$error}}</li>
-				@endforeach
-			</ul>
-		</div>
+<h2>Creando Post</h2>
 
-	@endif
 
-<form action="{{route('store_posts_path')}}" method="POST">
-	{{csrf_field()}}
+<form action="{{route('store_post_path')}}" method="POST">
+
+{{csrf_field()}}
 	<div class="form-group">
 		<label for="title">Titulo:</label>
 		<input type="text" name="title" class="form-control" placeholder="Titulo del Post" value="{{old('title')}}">
@@ -28,9 +21,10 @@
 		<input type="text" name="url" class="form-control" placeholder="url en caso que tuviese"  value="{{old('url')}}">
 	</div>
 	<div class="form-group">
-		<button type="submit" class="btn btn-primary">Crear</button>
+		<button type="submit" class="btn btn-primary">Grabar</button>
 	</div>
 </form>		
+
 @endsection
 
 

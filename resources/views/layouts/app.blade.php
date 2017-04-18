@@ -13,6 +13,8 @@
 			</div>
 		</div>
 		<hr>
+		@include('layouts._error')
+		@include('layouts._message')
 		@yield('content')
 </body>
 </html>

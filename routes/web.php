@@ -10,9 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::name('raiz')->get('/',function (){
-	return view('welcome');
-});
+Route::name('raiz')->get('/','PostsController@index');
 
 Route::name('create_post_path')->get('/posts/create','PostsController@create');
 
@@ -24,7 +22,7 @@ Route::name('posts_path')->get('/posts','PostsController@index');
 
 Route::name('post_path')->get('/posts/{post}','PostsController@show');
 
-Route::name('store_posts_path')->post('/posts','PostsController@store');
+Route::name('store_post_path')->post('/posts','PostsController@store');
 
 Route::name('edit_post_path')->get('/posts/{post}/edit','PostsController@edit');
 
@@ -32,6 +30,6 @@ Route::name('update_post_path')->put('/posts/{post}','PostsController@update');
 
 Route::name('delete_post_path')->delete('/posts/{post}','PostsController@delete');
 
+Auth::routes();
 
-
-
+Route::get('/home', 'HomeController@index');

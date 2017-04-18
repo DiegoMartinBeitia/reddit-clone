@@ -67,7 +67,9 @@ public function store(CreatePostRequest $request) //le antepongo el nombre y ya 
         */
 
         //otra es un solo comando
-        $posts=Post::create($request->only('title','description','url' ));
+        $post=Post::create($request->only('title','description','url' ));
+
+        session()->flash('msg',"Post Grabado Correctamente");
 
         return redirect()->route('posts_path');
 
@@ -79,8 +81,8 @@ public function store(CreatePostRequest $request) //le antepongo el nombre y ya 
 
 public function edit(Post $post) //le antepongo el nombre del modelo entonces lo busca directamente en el modelo el id
     {
-        //dd($post);
-        return view("posts.edit",['posts'=>$post]);
+        
+        return view("posts.edit",['post'=>$post]);
         //return view("posts.show");
     }
         //dd($post);
@@ -98,17 +100,15 @@ public function update(Post $post, CreatePostRequest  $request)
         //otra es un solo comando
         $post->update($request->only('title','description','url' ));//otra vez utilizamos el metodo only del Request
 
+        session()->flash('msg',"Post Editado Correctamente");
         return redirect()->route('posts_path');
-
-        //dd($request->all());
-        
-        //return view("posts.show",['posts'=>$posts]);
-        //return view("posts.show");
+     
     }
     public function delete(Post $post) //le antepongo el nombre del modelo entonces lo busca directamente en el modelo el id
     {
         //dd($post);
         $post->delete();//para borrar al objeto se invoca el metodo delete
+        session()->flash('msg',"Post Borrado");
         return redirect()->route('posts_path');
     }
    
