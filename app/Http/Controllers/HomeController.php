@@ -13,7 +13,9 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // esto lo remuevo porque lo verificare desde las Rutas!!!
+        //$this->middleware('auth');
+
     }
 
     /**
