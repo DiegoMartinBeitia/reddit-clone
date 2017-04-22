@@ -18,6 +18,8 @@ class CreatePostTable extends Migration
             $table->string('title');
             $table->text('description');
             $table->string('url');
+            $table->integer('user_id')->unsigned(); //nombre tabla guion bajo id!!!
+
             $table->timestamps();
         });
     }

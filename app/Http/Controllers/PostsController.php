@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Post;
 use App\Http\Requests\CreatePostRequest;
+use App\Http\Requests\UpdatePostRequest;
 
 
 
@@ -66,8 +67,21 @@ public function store(CreatePostRequest $request) //le antepongo el nombre y ya 
         $posts->save();
         */
 
-        //otra es un solo comando
-        $post=Post::create($request->only('title','description','url' ));
+        //otra es un solo comando pero esta no me trae el id de usuario
+        //$post=Post::create($request->only('title','description','url' ));
+
+        $post=new Post;
+        $post->fill(
+               $request->only('title','description','url' )
+            );
+        
+        $post->user_id=auth()->user()->id;
+        //tambien es valido
+        //$post->user_id=\Auth::user()->id;
+        //$post->user_id=$request->user()->id;
+
+        $post->save();
+
 
         session()->flash('msg',"Post Grabado Correctamente");
 
@@ -81,12 +95,16 @@ public function store(CreatePostRequest $request) //le antepongo el nombre y ya 
 
 public function edit(Post $post) //le antepongo el nombre del modelo entonces lo busca directamente en el modelo el id
     {
-        
-        return view("posts.edit",['post'=>$post]);
+        if (auth()->user()->id== $post->user_id){
+            return view("posts.edit",['post'=>$post]);
+        }else{    
+            session()->flash('msg',"Error usted no es el autor del post");
+            return redirect()->route('posts_path');    
+        }
         //return view("posts.show");
     }
         //dd($post);
-public function update(Post $post, CreatePostRequest  $request)
+public function update(Post $post, UpdatePostRequest  $request)
     {
         
         //hay varias opcioines para grabar los datos, una es uno a uno
@@ -107,9 +125,14 @@ public function update(Post $post, CreatePostRequest  $request)
     public function delete(Post $post) //le antepongo el nombre del modelo entonces lo busca directamente en el modelo el id
     {
         //dd($post);
-        $post->delete();//para borrar al objeto se invoca el metodo delete
-        session()->flash('msg',"Post Borrado");
-        return redirect()->route('posts_path');
+        if (auth()->user()->id== $post->user_id){
+            $post->delete();//para borrar al objeto se invoca el metodo delete
+            session()->flash('msg',"Post Borrado");
+            return redirect()->route('posts_path');
+        }else{
+            session()->flash('msg',"Error, Usted no es el autor de la publicacion, no puede eliminarla");
+            return redirect()->route('posts_path');
+        }    
     }
    
 }
